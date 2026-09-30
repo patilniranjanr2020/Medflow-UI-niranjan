@@ -103,8 +103,63 @@ export interface Patient {
   phone?: string;
   email?: string;
   address?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  preferredLanguage?: string;
+  emergencyContactName?: string;
+  emergencyContactPhone?: string;
+  emergencyContactRelationship?: string;
+  insuranceProvider?: string;
+  memberId?: string;
+  governmentIdType?: string;
+  governmentIdNumber?: string;
+  allergies?: string;
+  consentStatus?: string;
+  referringPhysician?: string;
+  guardianName?: string;
+  guardianRelationship?: string;
+  guardianMobile?: string;
   status: AccountStatus;
   createdAt: string;
+  updatedAt?: string;
+}
+
+export type MappingRelation =
+  | 'SELF'
+  | 'PARENT'
+  | 'GUARDIAN'
+  | 'SPOUSE'
+  | 'CHILD'
+  | 'CARETAKER'
+  | 'OTHER';
+
+export interface PatientMedicalHistory {
+  id: number;
+  patientId: number;
+  conditionName: string;
+  notes?: string;
+  recordedByDoctorId?: number;
+  recordedAt: string;
+}
+
+export interface PatientAccount {
+  id: number;
+  userId: number;
+  userFullName?: string;
+  userEmail?: string;
+  relation: MappingRelation;
+  primaryContact: boolean;
+  createdAt: string;
+}
+
+export interface PatientReport {
+  id: number;
+  patientId: number;
+  reportType: string;
+  fileUrl: string;
+  uploadedByUserId?: number;
+  uploadedAt: string;
 }
 
 export interface Appointment {

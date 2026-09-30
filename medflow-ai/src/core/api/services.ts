@@ -13,11 +13,18 @@ import type {
   ModuleEntitlement,
   Notification,
   Patient,
+  PatientAccount,
+  PatientMedicalHistory,
+  PatientReport,
   Prescription,
   Role,
   Setting,
   UserAccount,
 } from './types';
+import type {
+  PatientRegistrationProfile,
+  UpdatePatientRegistrationProfile,
+} from '../../modules/settings/types/patientRegistrationProfile';
 
 export interface Paged {
   page?: number;
@@ -58,8 +65,12 @@ export const doctorsApi = {
 export const patientsApi = {
   list: (params: Paged & { query?: string; status?: string } = {}) =>
     api.get<Page<Patient>>(`/patients${query({ ...params })}`),
-  get: (id: number) => api.get<Patient>(`/patients/${id}`),
+  get: (id: number | string) => api.get<Patient>(`/patients/${id}`),
   create: (payload: Record<string, unknown>) => api.post<Patient>('/patients', payload),
+  medicalHistory: (id: number | string) =>
+    api.get<PatientMedicalHistory[]>(`/patients/${id}/medical-history`),
+  accounts: (id: number | string) => api.get<PatientAccount[]>(`/patients/${id}/accounts`),
+  reports: (id: number | string) => api.get<PatientReport[]>(`/patients/${id}/reports`),
 };
 
 export const appointmentsApi = {
@@ -118,6 +129,14 @@ export const accessApi = {
 export const settingsApi = {
   list: () => api.get<Setting[]>('/settings'),
   save: (key: string, value: string) => api.put<Setting>(`/settings/${key}`, { value }),
+  patientRegistrationProfile: () =>
+    api.get<PatientRegistrationProfile>('/settings/patient-registration-profile'),
+  updatePatientRegistrationProfile: (payload: UpdatePatientRegistrationProfile) =>
+    api.put<PatientRegistrationProfile>('/settings/patient-registration-profile', payload),
+  applyPatientRegistrationTemplate: (template: 'basic' | 'comprehensive') =>
+    api.post<PatientRegistrationProfile>(
+      `/settings/patient-registration-profile/templates/${template}`,
+    ),
 };
 
 export const assistantApi = {

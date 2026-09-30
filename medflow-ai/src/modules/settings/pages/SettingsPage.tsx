@@ -12,6 +12,7 @@ import { useApiResource } from '../../../shared/hooks/useApiResource';
 import { hospitalApi, settingsApi } from '../../../core/api/services';
 import { ApiError } from '../../../core/api/client';
 import { useAuth } from '../../../core/auth/AuthContext';
+import { PatientRegistrationProfileForm } from '../components/PatientRegistrationProfileForm';
 
 export default function SettingsPage() {
   const { show } = useToast();
@@ -80,6 +81,8 @@ export default function SettingsPage() {
           ) : null}
         </CardBody>
       </Card>
+
+      <PatientRegistrationProfileForm canEdit={canEdit} />
 
       <Card padding="lg">
         <CardHeader>

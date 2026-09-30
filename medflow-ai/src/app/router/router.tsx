@@ -11,6 +11,7 @@ import ForgotPasswordPage from '../../modules/auth/pages/ForgotPasswordPage';
 import DashboardPage from '../../modules/dashboard/pages/DashboardPage';
 import DoctorsPage from '../../modules/doctors/pages/DoctorsPage';
 import PatientsPage from '../../modules/patients/pages/PatientsPage';
+import PatientProfilePage from '../../modules/patients/pages/PatientProfilePage';
 import AppointmentsPage from '../../modules/appointments/pages/AppointmentsPage';
 import PrescriptionsPage from '../../modules/prescriptions/pages/PrescriptionsPage';
 import ReportsPage from '../../modules/reports/pages/ReportsPage';
@@ -67,6 +68,7 @@ export const router = createBrowserRouter([
           { path: ROUTES.dashboard, element: <DashboardPage /> },
           { path: ROUTES.doctors, element: <DoctorsPage /> },
           { path: ROUTES.patients, element: <PatientsPage /> },
+          { path: ROUTES.patientProfile, element: <PatientProfilePage /> },
           { path: ROUTES.appointments, element: <AppointmentsPage /> },
           { path: ROUTES.prescriptions, element: <PrescriptionsPage /> },
           { path: ROUTES.laboratory, element: <LaboratoryPage /> },

@@ -1,15 +1,26 @@
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Plus } from 'lucide-react';
 import { DataPage } from '../../../shared/components/DataPage';
 import { Badge } from '../../../shared/components/Badge/Badge';
 import { Avatar } from '../../../shared/components/Avatar/Avatar';
+import { Button } from '../../../shared/components/Button/Button';
 import { patientsApi } from '../../../core/api/services';
 import { formatDate, humanize, statusTone } from '../../../core/utils/format';
 import type { Patient } from '../../../core/api/types';
+import { AddPatientModal } from '../components/AddPatientModal';
 
 export default function PatientsPage() {
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [reloadToken, setReloadToken] = useState(0);
+
   return (
-    <DataPage<Patient>
+    <>
+      <DataPage<Patient>
       title="Patient Management"
       description="Registered patients, their contact details and record status."
+      actions={<Button leftIcon={<Plus size={16} />} onClick={() => setIsModalOpen(true)}>Add patient</Button>}
       searchPlaceholder="Search by name, code, phone or email…"
       rowKey={(row) => row.id}
       load={({ page, size, query }) => patientsApi.list({ page, size, query })}
@@ -20,10 +31,28 @@ export default function PatientsPage() {
           header: 'Patient',
           render: (row) => (
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--mf-space-3)' }}>
-              <Avatar name={row.fullName} size="sm" />
+              <Avatar
+                name={row.fullName}
+                size="sm"
+                onClick={() => navigate(`/patients/${row.id}`)}
+                ariaLabel={`View profile for ${row.fullName}`}
+              />
               <div>
-                <div>{row.fullName}</div>
-                <small style={{ color: 'var(--mf-text-muted)' }}>{row.patientCode}</small>
+                <Link
+                  to={`/patients/${row.id}`}
+                  style={{
+                    color: 'var(--mf-ink-900)',
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--mf-blue-600)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--mf-ink-900)')}
+                >
+                  {row.fullName}
+                </Link>
+                <div>
+                  <small style={{ color: 'var(--mf-text-muted)' }}>{row.patientCode}</small>
+                </div>
               </div>
             </div>
           ),
@@ -46,6 +75,13 @@ export default function PatientsPage() {
           ),
         },
       ]}
-    />
+      deps={[reloadToken]}
+      />
+      <AddPatientModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onCreated={() => setReloadToken((current) => current + 1)}
+      />
+    </>
   );
 }

@@ -21,4 +21,6 @@ export const ROUTES = {
   ai: '/ai',
   users: '/users',
   settings: '/settings',
+  patientProfile: '/patients/:patientId',
+  patientDetail: (id: string | number) => `/patients/${id}`,
 } as const;

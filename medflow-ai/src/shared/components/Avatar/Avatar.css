@@ -2,6 +2,38 @@
   position: relative;
   display: inline-flex;
   flex-shrink: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
+  line-height: normal;
+  text-decoration: none;
+  border-radius: 50%;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.mf-avatar--interactive {
+  cursor: pointer;
+}
+
+.mf-avatar--interactive:hover {
+  transform: scale(1.08);
+}
+
+.mf-avatar--interactive:hover .mf-avatar__circle {
+  box-shadow: 0 0 0 2px var(--mf-surface), 0 0 0 4px var(--mf-blue-400);
+}
+
+.mf-avatar--interactive:focus-visible {
+  outline: none;
+  transform: scale(1.08);
+}
+
+.mf-avatar--interactive:focus-visible .mf-avatar__circle {
+  box-shadow: 0 0 0 2px var(--mf-surface), 0 0 0 4px var(--mf-blue-600);
+}
+
+.mf-avatar--interactive:active {
+  transform: scale(0.96);
 }
 
 .mf-avatar__circle {
@@ -12,11 +44,13 @@
   color: white;
   font-weight: 700;
   font-family: var(--mf-font-body);
+  transition: box-shadow 150ms ease;
 }
 
 .mf-avatar--sm .mf-avatar__circle { width: 28px; height: 28px; font-size: 11px; }
 .mf-avatar--md .mf-avatar__circle { width: 38px; height: 38px; font-size: 13px; }
 .mf-avatar--lg .mf-avatar__circle { width: 52px; height: 52px; font-size: 17px; }
+.mf-avatar--xl .mf-avatar__circle { width: 68px; height: 68px; font-size: 24px; }
 
 .mf-avatar__status {
   position: absolute;
