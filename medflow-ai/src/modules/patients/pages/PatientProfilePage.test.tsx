@@ -12,6 +12,7 @@ vi.mock('../../../core/api/services', () => ({
   patientsApi: {
     get: vi.fn(),
     list: vi.fn(),
+    update: vi.fn(),
     medicalHistory: vi.fn(),
     accounts: vi.fn(),
     reports: vi.fn(),
@@ -333,6 +334,219 @@ describe('PatientProfilePage', () => {
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { level: 1, name: 'Meera Joshi' })).toBeDefined();
+    });
+  });
+
+  describe('Inline Editing Flow', () => {
+    beforeEach(() => {
+      vi.mocked(patientsApi.get).mockResolvedValue(mockPatient);
+      vi.mocked(patientsApi.medicalHistory).mockResolvedValue([]);
+      vi.mocked(patientsApi.accounts).mockResolvedValue([]);
+      vi.mocked(patientsApi.reports).mockResolvedValue([]);
+    });
+
+    it('toggles edit mode and transforms Edit button to Done and Cancel buttons', async () => {
+      render(
+        <ToastProvider>
+          <MemoryRouter initialEntries={['/patients/101']}>
+            <Routes>
+              <Route path="/patients/:patientId" element={<PatientProfilePage />} />
+            </Routes>
+          </MemoryRouter>
+        </ToastProvider>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByTestId('edit-profile-btn')).toBeDefined();
+      });
+
+      // Pencil buttons should NOT exist before entering edit mode
+      expect(screen.queryByTitle('Edit Patient Name')).toBeNull();
+
+      // Click Edit
+      fireEvent.click(screen.getByTestId('edit-profile-btn'));
+
+      expect(screen.getByTestId('save-profile-btn')).toBeDefined();
+      expect(screen.getByTestId('cancel-profile-btn')).toBeDefined();
+      expect(screen.queryByTestId('edit-profile-btn')).toBeNull();
+      expect(screen.getByText('Edit Mode')).toBeDefined();
+    });
+
+    it('shows pencil on hover in edit mode, opens editor, commits edit and updates derived age', async () => {
+      render(
+        <ToastProvider>
+          <MemoryRouter initialEntries={['/patients/101']}>
+            <Routes>
+              <Route path="/patients/:patientId" element={<PatientProfilePage />} />
+            </Routes>
+          </MemoryRouter>
+        </ToastProvider>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByTestId('edit-profile-btn')).toBeDefined();
+      });
+
+      fireEvent.click(screen.getByTestId('edit-profile-btn'));
+
+      // Hover on date of birth editable field to show pencil button
+      const dobField = screen.getByTestId('editable-field-dateOfBirth');
+      fireEvent.mouseEnter(dobField);
+
+      const dobPencil = screen.getByTitle('Edit Date of Birth');
+      expect(dobPencil).toBeDefined();
+
+      // Click pencil to open inline editor
+      fireEvent.click(dobPencil);
+
+      const dobInput = screen.getByLabelText('Date of Birth') as HTMLInputElement;
+      expect(dobInput).toBeDefined();
+      expect(dobInput.value).toBe('1991-04-12');
+
+      // Change date of birth to 2000-01-01
+      fireEvent.change(dobInput, { target: { value: '2000-01-01' } });
+
+      // Apply inline change
+      const applyBtn = screen.getByRole('button', { name: 'Apply Date of Birth' });
+      fireEvent.click(applyBtn);
+
+      // Verify derived age dynamically changed on screen
+      await waitFor(() => {
+        const ageEl = screen.getByTestId('patient-effective-age');
+        expect(ageEl.textContent).toBe('26 yrs');
+      });
+    });
+
+    it('submits partial update with lastUpdatedAt concurrency token and updates profile on success', async () => {
+      const updatedPatient: Patient = {
+        ...mockPatient,
+        fullName: 'Meera Sharma',
+        firstName: 'Meera',
+        lastName: 'Sharma',
+        phone: '+91 99999 88888',
+        updatedAt: '2026-10-02T19:00:00Z',
+      };
+      vi.mocked(patientsApi.update).mockResolvedValue(updatedPatient);
+
+      render(
+        <ToastProvider>
+          <MemoryRouter initialEntries={['/patients/101']}>
+            <Routes>
+              <Route path="/patients/:patientId" element={<PatientProfilePage />} />
+            </Routes>
+          </MemoryRouter>
+        </ToastProvider>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByTestId('edit-profile-btn')).toBeDefined();
+      });
+
+      fireEvent.click(screen.getByTestId('edit-profile-btn'));
+
+      // Edit name
+      const nameField = screen.getByTestId('editable-field-fullName');
+      fireEvent.mouseEnter(nameField);
+      fireEvent.click(screen.getByTitle('Edit Patient Name'));
+
+      const nameInput = screen.getByLabelText('Patient Name');
+      fireEvent.change(nameInput, { target: { value: 'Meera Sharma' } });
+      fireEvent.click(screen.getByTitle('Apply'));
+
+      // Click Done
+      fireEvent.click(screen.getByTestId('save-profile-btn'));
+
+      await waitFor(() => {
+        expect(patientsApi.update).toHaveBeenCalledWith('101', expect.objectContaining({
+          firstName: 'Meera',
+          lastName: 'Sharma',
+          lastUpdatedAt: mockPatient.updatedAt,
+        }));
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('heading', { level: 1, name: 'Meera Sharma' })).toBeDefined();
+        expect(screen.getByTestId('edit-profile-btn')).toBeDefined();
+      });
+    });
+
+    it('prompts confirmation when discarding changes via Cancel button', async () => {
+      const confirmMock = vi.fn().mockReturnValue(false);
+      window.confirm = confirmMock;
+
+      render(
+        <ToastProvider>
+          <MemoryRouter initialEntries={['/patients/101']}>
+            <Routes>
+              <Route path="/patients/:patientId" element={<PatientProfilePage />} />
+            </Routes>
+          </MemoryRouter>
+        </ToastProvider>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByTestId('edit-profile-btn')).toBeDefined();
+      });
+
+      fireEvent.click(screen.getByTestId('edit-profile-btn'));
+
+      // Edit name
+      const nameField = screen.getByTestId('editable-field-fullName');
+      fireEvent.mouseEnter(nameField);
+      fireEvent.click(screen.getByTitle('Edit Patient Name'));
+
+      const nameInput = screen.getByLabelText('Patient Name');
+      fireEvent.change(nameInput, { target: { value: 'Meera New' } });
+      fireEvent.click(screen.getByTitle('Apply'));
+
+      // Click Cancel with confirm=false -> remains in edit mode
+      fireEvent.click(screen.getByTestId('cancel-profile-btn'));
+      expect(confirmMock).toHaveBeenCalled();
+      expect(screen.getByTestId('save-profile-btn')).toBeDefined();
+
+      // Now confirm discard -> exits edit mode and reverts
+      confirmMock.mockReturnValue(true);
+      fireEvent.click(screen.getByTestId('cancel-profile-btn'));
+
+      await waitFor(() => {
+        expect(screen.getByTestId('edit-profile-btn')).toBeDefined();
+        expect(screen.getByRole('heading', { level: 1, name: 'Meera Joshi' })).toBeDefined();
+      });
+    });
+
+    it('handles 409 conflict error when server detects concurrent modification', async () => {
+      vi.mocked(patientsApi.update).mockRejectedValue(new ApiError(409, 'Record was updated by another user.'));
+
+      render(
+        <ToastProvider>
+          <MemoryRouter initialEntries={['/patients/101']}>
+            <Routes>
+              <Route path="/patients/:patientId" element={<PatientProfilePage />} />
+            </Routes>
+          </MemoryRouter>
+        </ToastProvider>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByTestId('edit-profile-btn')).toBeDefined();
+      });
+
+      fireEvent.click(screen.getByTestId('edit-profile-btn'));
+
+      const phoneField = screen.getByTestId('editable-field-phone');
+      fireEvent.mouseEnter(phoneField);
+      fireEvent.click(screen.getByTitle('Edit Phone'));
+
+      const phoneInput = screen.getByLabelText('Phone');
+      fireEvent.change(phoneInput, { target: { value: '+91 99999 11111' } });
+      fireEvent.click(screen.getByTitle('Apply'));
+
+      fireEvent.click(screen.getByTestId('save-profile-btn'));
+
+      await waitFor(() => {
+        expect(patientsApi.update).toHaveBeenCalled();
+        expect(screen.getByText('Conflict detected')).toBeDefined();
+      });
     });
   });
 });

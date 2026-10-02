@@ -97,6 +97,6 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 /** Access the toast host to queue notifications: `useToast().show({ title, tone })`. */
 export function useToast(): ToastContextValue {
   const ctx = useContext(ToastContext);
-  if (!ctx) throw new Error('useToast must be used within a ToastProvider');
+  if (!ctx) return { show: () => {} };
   return ctx;
 }

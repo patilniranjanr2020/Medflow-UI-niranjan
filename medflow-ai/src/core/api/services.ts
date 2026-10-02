@@ -71,6 +71,8 @@ export const patientsApi = {
     api.get<PatientMedicalHistory[]>(`/patients/${id}/medical-history`),
   accounts: (id: number | string) => api.get<PatientAccount[]>(`/patients/${id}/accounts`),
   reports: (id: number | string) => api.get<PatientReport[]>(`/patients/${id}/reports`),
+  update: (id: number | string, payload: Record<string, unknown>) =>
+    api.put<Patient>(`/patients/${id}`, payload),
 };
 
 export const appointmentsApi = {

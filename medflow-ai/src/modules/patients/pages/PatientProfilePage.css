@@ -414,3 +414,23 @@
     align-items: flex-start;
   }
 }
+
+/* Edit Mode Banner & Indicators */
+.mf-patient-profile--editing .mf-patient-profile__hero {
+  border-color: var(--mf-blue-300, #93c5fd);
+  box-shadow: 0 0 0 1px var(--mf-blue-200, #bfdbfe), var(--mf-shadow-sm);
+}
+
+.mf-patient-profile__edit-badge {
+  font-size: var(--mf-fs-xs, 12px);
+  font-weight: 600;
+  color: var(--mf-blue-700, #1d4ed8);
+  background: var(--mf-blue-50, #eff6ff);
+  border: 1px solid var(--mf-blue-200, #bfdbfe);
+  padding: 2px 8px;
+  border-radius: var(--mf-radius-full, 9999px);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
