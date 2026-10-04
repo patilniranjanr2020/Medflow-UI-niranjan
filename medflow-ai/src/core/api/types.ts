@@ -76,6 +76,8 @@ export interface DailyActivity {
 
 export interface Doctor {
   id: number;
+  hospitalId?: number;
+  userId?: number;
   doctorCode: string;
   fullName: string;
   firstName: string;
@@ -87,7 +89,11 @@ export interface Doctor {
   registrationNumber: string;
   yearsOfExperience: number;
   consultationFee: number;
+  digitalSignatureUrl?: string;
+  bio?: string;
   status: AccountStatus;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Patient {

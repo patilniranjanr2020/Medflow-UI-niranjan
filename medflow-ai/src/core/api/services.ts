@@ -61,6 +61,10 @@ export const doctorsApi = {
     api.get<Page<Doctor>>(`/doctors${query({ ...params })}`),
   get: (id: number) => api.get<Doctor>(`/doctors/${id}`),
   create: (payload: Record<string, unknown>) => api.post<Doctor>('/doctors', payload),
+  update: (id: number, payload: Record<string, unknown>) =>
+    api.put<Doctor>(`/doctors/${id}`, payload),
+  changeStatus: (id: number, status: string) =>
+    api.patch<Doctor>(`/doctors/${id}/status`, { status }),
 };
 
 export const patientsApi = {
