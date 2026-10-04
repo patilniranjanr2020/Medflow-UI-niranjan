@@ -57,7 +57,7 @@ export const analyticsApi = {
 };
 
 export const doctorsApi = {
-  list: (params: Paged & { query?: string; specialty?: string } = {}) =>
+  list: (params: Paged & { query?: string; specialty?: string; status?: string } = {}) =>
     api.get<Page<Doctor>>(`/doctors${query({ ...params })}`),
   get: (id: number) => api.get<Doctor>(`/doctors/${id}`),
   create: (payload: Record<string, unknown>) => api.post<Doctor>('/doctors', payload),

@@ -52,6 +52,11 @@
 .mf-field__icon--left { left: 14px; }
 .mf-field__icon--right { right: 14px; }
 .mf-field__icon svg { width: 17px; height: 17px; }
+.mf-field__search-spinner { animation: mf-field-search-spin 0.8s linear infinite; }
+
+@keyframes mf-field-search-spin {
+  to { transform: rotate(360deg); }
+}
 
 .mf-field__message {
   font-size: var(--mf-fs-xs);
