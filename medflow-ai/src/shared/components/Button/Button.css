@@ -57,8 +57,13 @@
 }
 .mf-btn--danger:hover:not(:disabled) { background: var(--mf-coral-600); }
 
-.mf-btn__icon { display: inline-flex; }
-.mf-btn__icon svg { width: 1em; height: 1em; }
+.mf-btn__icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  line-height: 0;
+}
+.mf-btn__icon svg { display: block; }
 
 .mf-btn__spinner {
   width: 15px;

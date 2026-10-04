@@ -75,8 +75,7 @@ export default function PrescriptionsPage() {
         deps={[version]}
         onRowClick={(row) => setSelectedPrescription(row)}
         actions={
-          <Button variant="primary" onClick={() => setIsAddOpen(true)}>
-            <Plus size={16} style={{ marginRight: 'var(--mf-space-1)' }} />
+          <Button variant="primary" leftIcon={<Plus size={16} />} onClick={() => setIsAddOpen(true)}>
             Add prescription
           </Button>
         }

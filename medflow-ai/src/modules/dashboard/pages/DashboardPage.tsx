@@ -95,7 +95,7 @@ export default function DashboardPage() {
             <Button variant="outline" leftIcon={<Bell size={15} />} onClick={() => navigate(ROUTES.notifications)}>
               Notifications
             </Button>
-            <Button leftIcon={<Plus size={15} />} onClick={() => navigate(ROUTES.appointments)}>
+            <Button leftIcon={<Plus size={16} />} onClick={() => navigate(ROUTES.appointments)}>
               New appointment
             </Button>
           </>

@@ -92,8 +92,7 @@ export default function LaboratoryPage() {
         title="Laboratory"
         description="Test orders, the processing queue and signed-off results."
         actions={
-          <Button variant="primary" onClick={() => setIsAddOpen(true)}>
-            <Plus size={16} style={{ marginRight: 'var(--mf-space-1)' }} />
+          <Button variant="primary" leftIcon={<Plus size={16} />} onClick={() => setIsAddOpen(true)}>
             Add order
           </Button>
         }

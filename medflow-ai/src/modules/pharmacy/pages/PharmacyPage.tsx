@@ -94,10 +94,10 @@ export default function PharmacyPage() {
         actions={
           <Button
             variant="primary"
+            leftIcon={<Plus size={16} />}
             onClick={() => setIsAddOpen(true)}
             aria-label="Add medicine"
           >
-            <Plus size={16} style={{ marginRight: 'var(--mf-space-1)' }} />
             Add medicine
           </Button>
         }
