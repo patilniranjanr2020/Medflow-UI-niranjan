@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 import type { Page } from '../../../core/api/client';
 import { useApiResource } from '../../hooks/useApiResource';
 import { Alert } from '../Alert/Alert';
@@ -26,6 +26,7 @@ interface DataPageProps<T> {
   deps?: unknown[];
   emptyMessage?: string;
   pageSize?: number;
+  onRowClick?: (row: T) => void;
 }
 
 /**
@@ -45,10 +46,21 @@ export function DataPage<T>({
   deps = [],
   emptyMessage,
   pageSize = 10,
+  onRowClick,
 }: DataPageProps<T>) {
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState('');
   const [term, setTerm] = useState('');
+
+  const isFirstMount = useRef(true);
+  useEffect(() => {
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
+    }
+    setPage(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [...deps]);
 
   const { data, error, isLoading, reload } = useApiResource(
     () => load({ page, size: pageSize, query: term }),
@@ -101,6 +113,7 @@ export function DataPage<T>({
                 columns={columns}
                 data={data?.content ?? []}
                 rowKey={rowKey}
+                onRowClick={onRowClick}
                 emptyMessage={emptyMessage ?? 'Nothing here yet.'}
               />
               {data && data.totalPages > 1 && (

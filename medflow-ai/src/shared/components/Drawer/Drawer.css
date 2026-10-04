@@ -33,6 +33,12 @@
 
 .mf-drawer__title { font-size: var(--mf-fs-lg); }
 
+.mf-drawer__header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--mf-space-2);
+}
+
 .mf-drawer__close {
   display: inline-flex;
   align-items: center;

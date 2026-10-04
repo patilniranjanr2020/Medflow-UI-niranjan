@@ -175,6 +175,7 @@ export interface Appointment {
   status: AppointmentStatus;
   queueNumber?: number;
   reason?: string;
+  notes?: string;
   consultationFee: number;
 }
 
@@ -192,11 +193,14 @@ export interface Prescription {
   patientName: string;
   doctorId: number;
   doctorName: string;
+  appointmentId?: number;
   diagnosis?: string;
   medicines: PrescriptionItem[];
   digitallySigned: boolean;
+  signedAt?: string;
   status: 'ACTIVE' | 'COMPLETED' | 'CANCELLED';
   createdAt: string;
+  updatedAt?: string;
 }
 
 export interface LabOrder {
@@ -211,6 +215,7 @@ export interface LabOrder {
   resultSummary?: string;
   orderedAt: string;
   completedAt?: string;
+  updatedAt?: string;
 }
 
 export interface Medication {
@@ -222,6 +227,8 @@ export interface Medication {
   reorderLevel: number;
   lowStock: boolean;
   expiryDate?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Notification {

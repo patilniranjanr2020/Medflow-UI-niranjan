@@ -37,7 +37,19 @@ export function Table<T>({ columns, data, rowKey, onRowClick, emptyMessage = 'No
         </thead>
         <tbody>
           {data.map((row) => (
-            <tr key={rowKey(row)} className={cn(onRowClick && 'mf-table__row--clickable')} onClick={() => onRowClick?.(row)}>
+            <tr
+              key={rowKey(row)}
+              className={cn(onRowClick && 'mf-table__row--clickable')}
+              onClick={() => onRowClick?.(row)}
+              tabIndex={onRowClick ? 0 : undefined}
+              role={onRowClick ? 'button' : undefined}
+              onKeyDown={(e) => {
+                if (onRowClick && (e.key === 'Enter' || e.key === ' ')) {
+                  e.preventDefault();
+                  onRowClick(row);
+                }
+              }}
+            >
               {columns.map((col) => (
                 <td key={col.key} style={{ textAlign: col.align ?? 'left' }}>
                   {col.render(row)}

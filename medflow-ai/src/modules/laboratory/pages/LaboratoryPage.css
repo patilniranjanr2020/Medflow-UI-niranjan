@@ -1,0 +1,35 @@
+.mf-lab-result-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mf-space-2);
+  max-width: 100%;
+}
+
+.mf-lab-result-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 220px;
+}
+
+.mf-pencil-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--mf-radius-sm);
+  border: 1px solid var(--mf-border);
+  background: var(--mf-surface);
+  color: var(--mf-ink-500);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: all var(--mf-dur-fast) var(--mf-ease);
+}
+
+.mf-pencil-btn:hover {
+  background: var(--mf-bg-subtle);
+  color: var(--mf-brand-600, var(--mf-ink-900));
+  border-color: var(--mf-ink-300);
+}

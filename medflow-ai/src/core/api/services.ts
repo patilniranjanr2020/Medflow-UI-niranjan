@@ -17,6 +17,7 @@ import type {
   PatientMedicalHistory,
   PatientReport,
   Prescription,
+  PrescriptionItem,
   Role,
   Setting,
   UserAccount,
@@ -79,30 +80,101 @@ export const appointmentsApi = {
   list: (
     params: Paged & { status?: string; doctorId?: number; patientId?: number; date?: string } = {},
   ) => api.get<Page<Appointment>>(`/appointments${query({ ...params })}`),
+  get: (id: number) => api.get<Appointment>(`/appointments/${id}`),
   book: (payload: Record<string, unknown>) => api.post<Appointment>('/appointments', payload),
   /** action is one of confirm | check-in | start-consultation | complete | cancel | no-show */
   transition: (id: number, action: string) =>
     api.patch<Appointment>(`/appointments/${id}/${action}`),
 };
 
+export interface CreatePrescriptionPayload {
+  patientId: number;
+  doctorId: number;
+  appointmentId?: number;
+  diagnosis?: string;
+  digitallySigned?: boolean;
+  medicines: PrescriptionItem[];
+}
+
+export interface UpdatePrescriptionPayload {
+  patientId: number;
+  doctorId: number;
+  appointmentId?: number;
+  diagnosis?: string;
+  digitallySigned?: boolean;
+  medicines: PrescriptionItem[];
+}
+
 export const prescriptionsApi = {
   list: (params: Paged & { patientId?: number; doctorId?: number; status?: string } = {}) =>
     api.get<Page<Prescription>>(`/prescriptions${query({ ...params })}`),
+  get: (id: number) => api.get<Prescription>(`/prescriptions/${id}`),
+  create: (data: CreatePrescriptionPayload) => api.post<Prescription>('/prescriptions', data),
+  update: (id: number, data: UpdatePrescriptionPayload) =>
+    api.put<Prescription>(`/prescriptions/${id}`, data),
+  delete: (id: number) => api.delete<void>(`/prescriptions/${id}`),
   complete: (id: number) => api.patch<Prescription>(`/prescriptions/${id}/complete`),
   cancel: (id: number) => api.patch<Prescription>(`/prescriptions/${id}/cancel`),
 };
 
 export const laboratoryApi = {
-  list: (params: Paged & { status?: string; priority?: string } = {}) =>
+  list: (params: Paged & { query?: string; status?: string; priority?: string; patientId?: number } = {}) =>
     api.get<Page<LabOrder>>(`/lab-orders${query({ ...params })}`),
+  get: (id: number) => api.get<LabOrder>(`/lab-orders/${id}`),
+  create: (data: {
+    patientId: number;
+    doctorId: number;
+    testName: string;
+    priority: 'ROUTINE' | 'URGENT' | 'STAT';
+  }) => api.post<LabOrder>('/lab-orders', data),
+  update: (
+    id: number,
+    data: {
+      testName: string;
+      priority: 'ROUTINE' | 'URGENT' | 'STAT';
+      doctorId?: number;
+      resultSummary?: string;
+    },
+  ) => api.put<LabOrder>(`/lab-orders/${id}`, data),
+  delete: (id: number) => api.delete<void>(`/lab-orders/${id}`),
   start: (id: number) => api.patch<LabOrder>(`/lab-orders/${id}/start`),
   complete: (id: number, resultSummary: string) =>
     api.patch<LabOrder>(`/lab-orders/${id}/complete`, { resultSummary }),
+  cancel: (id: number) => api.patch<LabOrder>(`/lab-orders/${id}/cancel`),
 };
 
+export interface CreateMedicationPayload {
+  name: string;
+  category: string;
+  unitPrice: number;
+  stockQuantity: number;
+  reorderLevel: number;
+  expiryDate?: string;
+}
+
+export interface UpdateMedicationPayload {
+  name: string;
+  category: string;
+  unitPrice: number;
+  reorderLevel: number;
+  expiryDate?: string;
+}
+
 export const pharmacyApi = {
-  list: (params: Paged & { query?: string; lowStockOnly?: boolean } = {}) =>
-    api.get<Page<Medication>>(`/pharmacy/medications${query({ ...params })}`),
+  list: (
+    params: Paged & {
+      query?: string;
+      category?: string;
+      stockStatus?: string;
+      lowStockOnly?: boolean;
+    } = {},
+  ) => api.get<Page<Medication>>(`/pharmacy/medications${query({ ...params })}`),
+  get: (id: number) => api.get<Medication>(`/pharmacy/medications/${id}`),
+  categories: () => api.get<string[]>('/pharmacy/medications/categories'),
+  create: (data: CreateMedicationPayload) => api.post<Medication>('/pharmacy/medications', data),
+  update: (id: number, data: UpdateMedicationPayload) =>
+    api.put<Medication>(`/pharmacy/medications/${id}`, data),
+  delete: (id: number) => api.delete<void>(`/pharmacy/medications/${id}`),
   adjustStock: (id: number, delta: number) =>
     api.patch<Medication>(`/pharmacy/medications/${id}/stock`, { delta }),
 };

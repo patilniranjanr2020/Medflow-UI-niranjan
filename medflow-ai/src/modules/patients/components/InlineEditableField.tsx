@@ -18,7 +18,7 @@ export interface InlineEditableFieldProps {
   testId?: string;
   onStartEdit: () => void;
   onCancelEdit: () => void;
-  onCommit: (val) => void;
+  onCommit: (val: string) => void;
 }
 
 export function InlineEditableField({

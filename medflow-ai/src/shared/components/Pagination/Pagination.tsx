@@ -31,7 +31,7 @@ export function Pagination({ currentPage, totalPages, onPageChange, summary, cla
   const pages = getPageList(currentPage, totalPages);
 
   return (
-    <div className={cn('mf-pagination', className)}>
+    <nav className={cn('mf-pagination', className)} aria-label="Pagination">
       {summary && <span className="mf-pagination__summary">{summary}</span>}
       <div className="mf-pagination__controls">
         <button
@@ -72,6 +72,6 @@ export function Pagination({ currentPage, totalPages, onPageChange, summary, cla
           <ChevronRight size={15} />
         </button>
       </div>
-    </div>
+    </nav>
   );
 }
