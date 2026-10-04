@@ -194,6 +194,10 @@ export const notificationsApi = {
 export const usersApi = {
   list: (params: Paged & { query?: string; roleCode?: string } = {}) =>
     api.get<Page<UserAccount>>(`/users${query({ ...params })}`),
+  get: (id: number) => api.get<UserAccount>(`/users/${id}`),
+  create: (payload: Record<string, unknown>) => api.post<UserAccount>('/users', payload),
+  update: (id: number, payload: Record<string, unknown>) =>
+    api.put<UserAccount>(`/users/${id}`, payload),
   changeStatus: (id: number, status: string) =>
     api.patch<UserAccount>(`/users/${id}/status`, { status }),
   changeRole: (id: number, roleCode: string) =>

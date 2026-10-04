@@ -21,12 +21,16 @@ export interface UserAccount {
   fullName: string;
   email: string;
   phone?: string;
+  gender?: Gender;
+  dateOfBirth?: string;
+  profilePhotoUrl?: string;
   roleId: number;
   roleCode: string;
   roleName: string;
   status: AccountStatus;
   lastLoginAt?: string;
   createdAt: string;
+  updatedAt?: string;
 }
 
 export interface AuthSession {
