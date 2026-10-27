@@ -171,6 +171,7 @@ export function EditPrescriptionModal({ prescription, isOpen, onClose, onUpdated
 
     setSubmitting(true);
     try {
+      if (!prescription) return;
       const payloadMedicines: PrescriptionItem[] = medicines.map((m) => ({
         medicationName: m.medicationName.trim(),
         dosage: m.dosage.trim(),
@@ -207,13 +208,15 @@ export function EditPrescriptionModal({ prescription, isOpen, onClose, onUpdated
 
   const patientOptions = patients.map((p) => ({
     value: String(p.id),
-    label: `${p.fullName || `${p.firstName} ${p.lastName}`} (${p.mrn})`,
+    label: `${p.fullName || `${p.firstName} ${p.lastName}`} (${p.patientCode})`,
   }));
 
   const doctorOptions = doctors.map((d) => ({
     value: String(d.id),
     label: `Dr. ${d.fullName} — ${d.specialty} (${d.doctorCode})`,
   }));
+
+  if (!prescription) return null;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={`Edit prescription #${prescription.id}`}>
@@ -223,7 +226,7 @@ export function EditPrescriptionModal({ prescription, isOpen, onClose, onUpdated
         </div>
       ) : isLocked ? (
         <div style={{ display: 'grid', gap: 'var(--mf-space-4)' }}>
-          <Alert tone="neutral" title="Prescription is locked">
+          <Alert tone="info" title="Prescription is locked">
             {prescription.digitallySigned
               ? 'This prescription is digitally signed and permanently sealed. Modifications are strictly disallowed to maintain legal clinical integrity.'
               : `This prescription has status ${prescription.status} and cannot be modified.`}

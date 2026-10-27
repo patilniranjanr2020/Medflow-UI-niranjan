@@ -64,7 +64,7 @@
 }
 
 .mf-lab-action-menu__item--danger:hover {
-  background: var(--mf-coral-50, #fff1f0);
+  background: var(--mf-coral-100);
   color: var(--mf-coral-700);
 }
 

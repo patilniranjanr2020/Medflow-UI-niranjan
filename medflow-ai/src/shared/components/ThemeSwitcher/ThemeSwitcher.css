@@ -1,0 +1,93 @@
+.mf-theme-switcher {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.mf-theme-switcher__trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--mf-radius-md);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--mf-ink-500);
+  cursor: pointer;
+  transition: background var(--mf-dur-fast) var(--mf-ease), color var(--mf-dur-fast) var(--mf-ease), border-color var(--mf-dur-fast) var(--mf-ease);
+}
+
+.mf-theme-switcher__trigger:hover,
+.mf-theme-switcher__trigger--open {
+  background: var(--mf-bg-subtle);
+  color: var(--mf-ink-900);
+}
+
+.mf-theme-switcher__trigger:focus-visible {
+  outline: none;
+  box-shadow: var(--mf-shadow-focus);
+}
+
+.mf-theme-switcher__icon {
+  flex-shrink: 0;
+}
+
+.mf-theme-switcher__panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 60;
+  min-width: 140px;
+  padding: var(--mf-space-1);
+  background: var(--mf-surface-raised);
+  border: 1px solid var(--mf-border);
+  border-radius: var(--mf-radius-md);
+  box-shadow: var(--mf-shadow-lg);
+  animation: mf-fade-in var(--mf-dur-fast) var(--mf-ease);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mf-theme-switcher__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--mf-space-2) var(--mf-space-3);
+  border: none;
+  background: transparent;
+  border-radius: var(--mf-radius-sm);
+  font-size: var(--mf-fs-sm);
+  font-weight: 500;
+  color: var(--mf-ink-700);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--mf-dur-fast) var(--mf-ease), color var(--mf-dur-fast) var(--mf-ease);
+}
+
+.mf-theme-switcher__item:hover,
+.mf-theme-switcher__item:focus-visible {
+  background: var(--mf-bg-subtle);
+  color: var(--mf-ink-900);
+  outline: none;
+}
+
+.mf-theme-switcher__item--active {
+  color: var(--mf-blue-600);
+  font-weight: 600;
+}
+
+.mf-theme-switcher__item-content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mf-space-2);
+}
+
+.mf-theme-switcher__check {
+  color: var(--mf-blue-600);
+  flex-shrink: 0;
+  margin-left: var(--mf-space-2);
+}

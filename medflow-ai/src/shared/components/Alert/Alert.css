@@ -27,7 +27,7 @@
   opacity: 0.65;
   transition: opacity var(--mf-dur-fast) var(--mf-ease), background var(--mf-dur-fast) var(--mf-ease);
 }
-.mf-alert__dismiss:hover { opacity: 1; background: rgba(15, 23, 42, 0.06); }
+.mf-alert__dismiss:hover { opacity: 1; background: var(--mf-bg-subtle); }
 
 .mf-alert--info { background: var(--mf-info-100); border-color: rgba(2, 132, 199, 0.24); color: var(--mf-info-600); }
 .mf-alert--info .mf-alert__message { color: var(--mf-ink-700); }

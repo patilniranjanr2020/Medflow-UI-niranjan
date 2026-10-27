@@ -28,3 +28,5 @@ export { ProfileMenu } from './ProfileMenu/ProfileMenu';
 export type { ProfileMenuItem } from './ProfileMenu/ProfileMenu';
 export { Alert } from './Alert/Alert';
 export { ToastProvider, useToast } from './Toast/Toast';
+export { ThemeSwitcher } from './ThemeSwitcher/ThemeSwitcher';
+export type { ThemeSwitcherProps } from './ThemeSwitcher/ThemeSwitcher';

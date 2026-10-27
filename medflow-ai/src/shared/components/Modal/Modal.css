@@ -14,6 +14,7 @@
 .mf-modal {
   width: 100%;
   background: var(--mf-surface);
+  border: 1px solid var(--mf-border);
   border-radius: var(--mf-radius-xl);
   box-shadow: var(--mf-shadow-lg);
   animation: mf-fade-up var(--mf-dur-base) var(--mf-ease);

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { SearchBar } from '../components/SearchBar/SearchBar';
 import { Badge } from '../components/Badge/Badge';
 import { ProfileMenu } from '../components/ProfileMenu/ProfileMenu';
+import { ThemeSwitcher } from '../components/ThemeSwitcher/ThemeSwitcher';
 import { useAuth } from '../../core/auth/AuthContext';
 import { useApiResource } from '../hooks/useApiResource';
 import { notificationsApi } from '../../core/api/services';
@@ -49,6 +50,7 @@ export function Header({ onMenuClick }: HeaderProps) {
             </Badge>
           )}
         </Link>
+        <ThemeSwitcher />
         <div className="mf-header__divider" />
         <ProfileMenu
           userName={userName}

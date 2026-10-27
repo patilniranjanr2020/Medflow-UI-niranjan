@@ -41,6 +41,8 @@ export interface AppThemePalette {
   green: string;
 }
 
-export function getAppTheme(mode: 'light' | 'dark' = 'light'): AppThemePalette {
+export type ThemeMode = 'light' | 'dark';
+
+export function getAppTheme(mode: ThemeMode = 'light'): AppThemePalette {
   return mode === 'dark' ? appThemeTokens.dark : appThemeTokens.light;
 }

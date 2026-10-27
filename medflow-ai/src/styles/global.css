@@ -3,6 +3,14 @@
 
 * { box-sizing: border-box; }
 
+html {
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -11,6 +19,25 @@ html, body {
   font-family: var(--mf-font-body);
   font-size: var(--mf-fs-base);
   -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle theme transition where it improves the experience */
+body,
+.mf-header,
+.mf-app-layout,
+.mf-app-layout__content,
+.mf-card,
+.mf-footer-shell,
+.mf-sidebar,
+.mf-field__input,
+.mf-field__select,
+.mf-table-wrap,
+.mf-modal,
+.mf-drawer {
+  transition: background-color var(--mf-dur-base) var(--mf-ease),
+              border-color var(--mf-dur-base) var(--mf-ease),
+              color var(--mf-dur-fast) var(--mf-ease),
+              box-shadow var(--mf-dur-base) var(--mf-ease);
 }
 
 #root { min-height: 100vh; }

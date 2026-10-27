@@ -12,6 +12,7 @@
   width: min(420px, 100vw);
   height: 100%;
   background: var(--mf-surface);
+  border-left: 1px solid var(--mf-border);
   box-shadow: var(--mf-shadow-lg);
   display: flex;
   flex-direction: column;

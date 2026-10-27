@@ -2,7 +2,7 @@ import { Drawer } from '../../../shared/components/Drawer/Drawer';
 import { Button } from '../../../shared/components/Button/Button';
 import { Badge } from '../../../shared/components/Badge/Badge';
 import { Card, CardBody } from '../../../shared/components/Card/Card';
-import { formatDate, formatDateTime, humanize, statusTone } from '../../../core/utils/format';
+import { formatDateTime, humanize, statusTone } from '../../../core/utils/format';
 import type { Prescription } from '../../../core/api/types';
 import { Edit2, Trash2, CheckCircle2, FileCheck2, User, Stethoscope, Clock, ShieldAlert } from 'lucide-react';
 import { useToast } from '../../../shared/components/Toast/Toast';
@@ -44,7 +44,7 @@ export function PrescriptionDetailDrawer({
               description: prescription.digitallySigned
                 ? 'Digitally signed prescriptions cannot be modified to preserve legal clinical integrity.'
                 : `Prescriptions with status ${prescription.status} cannot be modified.`,
-              tone: 'neutral',
+              tone: 'info',
             });
             return;
           }
@@ -68,7 +68,7 @@ export function PrescriptionDetailDrawer({
               description: prescription.digitallySigned
                 ? 'Digitally signed prescriptions cannot be deleted to preserve medical record history.'
                 : `Prescriptions with status ${prescription.status} cannot be deleted.`,
-              tone: 'neutral',
+              tone: 'info',
             });
             return;
           }

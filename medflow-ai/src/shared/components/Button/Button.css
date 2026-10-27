@@ -33,10 +33,10 @@
 .mf-btn--primary:hover:not(:disabled) { background: var(--mf-blue-700); box-shadow: var(--mf-shadow-md); transform: translateY(-1px); }
 
 .mf-btn--secondary {
-  background: var(--mf-ink-900);
-  color: white;
+  background: var(--mf-btn-secondary-bg, var(--mf-ink-900));
+  color: var(--mf-btn-secondary-text, white);
 }
-.mf-btn--secondary:hover:not(:disabled) { background: var(--mf-blue-900); transform: translateY(-1px); }
+.mf-btn--secondary:hover:not(:disabled) { background: var(--mf-btn-secondary-hover, var(--mf-blue-900)); transform: translateY(-1px); }
 
 .mf-btn--outline {
   background: transparent;

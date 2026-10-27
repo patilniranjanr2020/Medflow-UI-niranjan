@@ -4,7 +4,7 @@
   gap: var(--mf-space-2);
   height: 40px;
   padding: 0 var(--mf-space-4);
-  background: rgba(241, 245, 249, 0.7);
+  background: var(--mf-bg-subtle);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--mf-border);
