@@ -81,7 +81,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       login: async (email, password) => adopt(await authApi.login(email, password)),
       register: async (payload) => adopt(await authApi.register(payload)),
       logout,
-      can: (permission) => permissions.includes(permission),
+      can: (permission) => permissions.includes(permission) || user?.roleCode === 'ADMIN',
     }),
     [user, permissions, isRestoring, adopt, logout],
   );

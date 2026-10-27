@@ -149,3 +149,25 @@
   white-space: nowrap;
   z-index: 10;
 }
+
+.mf-inline-editor__datepicker {
+  margin: 0;
+  display: inline-flex;
+}
+
+.mf-inline-editor__datepicker .mf-field__control {
+  min-width: 140px;
+}
+
+.mf-inline-editor__datepicker .mf-datepicker__trigger {
+  height: 28px;
+  padding: 2px 30px 2px 8px;
+  font-size: var(--mf-fs-sm, 14px);
+  border: 1px solid var(--mf-blue-500, #3b82f6);
+  border-radius: var(--mf-radius-sm, 4px);
+  box-shadow: var(--mf-shadow-focus, 0 0 0 2px #bfdbfe);
+}
+
+.mf-inline-editor__datepicker .mf-field__icon--right {
+  right: 6px;
+}

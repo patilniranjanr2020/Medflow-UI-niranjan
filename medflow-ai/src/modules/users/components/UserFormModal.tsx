@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Alert } from '../../../shared/components/Alert/Alert';
 import { Button } from '../../../shared/components/Button/Button';
+import { DatePicker } from '../../../shared/components/DatePicker/DatePicker';
 import { Input } from '../../../shared/components/Input/Input';
 import { Modal } from '../../../shared/components/Modal/Modal';
 import { Select } from '../../../shared/components/Select/Select';
@@ -155,7 +156,13 @@ export function UserFormModal({ isOpen, user, onClose, onSaved }: Props) {
             </>
           )}
           <Select label="Gender" value={values.gender} placeholder="Select gender" options={genderOptions} onChange={(event) => update('gender', event.target.value)} />
-          <Input label="Date of birth" type="date" value={values.dateOfBirth} max={new Date().toISOString().slice(0, 10)} onChange={(event) => update('dateOfBirth', event.target.value)} />
+          <DatePicker
+            label="Date of birth"
+            value={values.dateOfBirth}
+            maxDate={new Date()}
+            onChangeString={(dateStr) => update('dateOfBirth', dateStr)}
+            error={submitted && values.dateOfBirth && values.dateOfBirth > new Date().toISOString().slice(0, 10) ? 'Date of birth cannot be in the future.' : undefined}
+          />
         </div>
         {submitted && loading && <span role="status">Saving user…</span>}
       </form>

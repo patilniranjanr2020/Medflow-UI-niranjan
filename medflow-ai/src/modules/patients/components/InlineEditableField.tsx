@@ -1,5 +1,6 @@
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 import { Pencil, Check, X } from 'lucide-react';
+import { DatePicker } from '../../../shared/components/DatePicker/DatePicker';
 import './InlineEditableField.css';
 
 export interface InlineEditableFieldProps {
@@ -82,7 +83,6 @@ export function InlineEditableField({
 
   // Edit mode - actively editing this field inline
   if (isActive) {
-    const today = new Date().toISOString().split('T')[0];
     return (
       <span
         className="mf-inline-editor"
@@ -104,6 +104,15 @@ export function InlineEditableField({
               </option>
             ))}
           </select>
+        ) : inputType === 'date' ? (
+          <DatePicker
+            value={draftValue}
+            maxDate={new Date()}
+            aria-label={label}
+            className="mf-inline-editor__datepicker"
+            onChangeString={(val) => setDraftValue(val)}
+            onKeyDown={handleKeyDown}
+          />
         ) : (
           <input
             ref={inputRef as React.RefObject<HTMLInputElement>}
@@ -112,7 +121,6 @@ export function InlineEditableField({
             aria-label={label}
             placeholder={placeholder}
             value={draftValue}
-            max={inputType === 'date' ? today : undefined}
             onChange={(e) => setDraftValue(e.target.value)}
             onKeyDown={handleKeyDown}
           />

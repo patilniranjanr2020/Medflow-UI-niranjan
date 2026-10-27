@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Modal } from '../../../shared/components/Modal/Modal';
 import { Button } from '../../../shared/components/Button/Button';
+import { DatePicker } from '../../../shared/components/DatePicker/DatePicker';
 import { Input } from '../../../shared/components/Input/Input';
 import { Select } from '../../../shared/components/Select/Select';
 import { Loading } from '../../../shared/components/Loading/Loading';
@@ -200,7 +201,21 @@ export function AddPatientModal({ isOpen, onClose, onCreated }: Props) {
     if (options) {
       return <Select key={field.fieldKey} label={label} value={values[input] ?? ''} options={options} placeholder="Select an option" error={errorMessage} onFocus={onFocus} onBlur={onBlur} onChange={(event) => onChange(event.target.value)} />;
     }
-    return <Input key={field.fieldKey} label={label} hint={field.fieldKey.includes('MOBILE') ? 'India: 10 digits starting with 6-9, with optional +91' : field.fieldKey === 'POSTAL_CODE' ? '6-digit Indian PIN code' : undefined} type={field.fieldKey === 'DATE_OF_BIRTH' ? 'date' : field.fieldKey.includes('MOBILE') || field.fieldKey === 'MOBILE' ? 'tel' : 'text'} value={values[input] ?? ''} error={errorMessage} onFocus={onFocus} onBlur={onBlur} onChange={(event) => onChange(event.target.value)} />;
+    if (field.fieldKey === 'DATE_OF_BIRTH') {
+      return (
+        <DatePicker
+          key={field.fieldKey}
+          label={label}
+          value={values[input] ?? ''}
+          maxDate={new Date()}
+          error={errorMessage}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          onChangeString={(val) => onChange(val)}
+        />
+      );
+    }
+    return <Input key={field.fieldKey} label={label} hint={field.fieldKey.includes('MOBILE') ? 'India: 10 digits starting with 6-9, with optional +91' : field.fieldKey === 'POSTAL_CODE' ? '6-digit Indian PIN code' : undefined} type={field.fieldKey.includes('MOBILE') || field.fieldKey === 'MOBILE' ? 'tel' : 'text'} value={values[input] ?? ''} error={errorMessage} onFocus={onFocus} onBlur={onBlur} onChange={(event) => onChange(event.target.value)} />;
   }
 
   return (

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Modal } from '../../../shared/components/Modal/Modal';
 import { Button } from '../../../shared/components/Button/Button';
 import { Input } from '../../../shared/components/Input/Input';
+import { DatePicker } from '../../../shared/components/DatePicker/DatePicker';
 import { Select } from '../../../shared/components/Select/Select';
 import { Alert } from '../../../shared/components/Alert/Alert';
 import { useToast } from '../../../shared/components/Toast/Toast';
@@ -235,12 +236,11 @@ export function EditMedicineModal({ medication, isOpen, onClose, onUpdated }: Pr
           />
         </div>
 
-        <Input
+        <DatePicker
           label="Expiry date"
           id="edit-medication-expiry-input"
-          type="date"
           value={expiryDate}
-          onChange={(e) => setExpiryDate(e.target.value)}
+          onChangeString={(val) => setExpiryDate(val)}
           error={errors.expiryDate}
           disabled={submitting}
         />
